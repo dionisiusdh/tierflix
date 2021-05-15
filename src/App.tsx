@@ -2,9 +2,10 @@ import * as React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { generate } from "shortid";
 import { reorderRows } from "./reorder";
-import { ColorMap } from "./types";
 import { MovieList } from "./MovieList";
 import images from "./images.json";
+
+import "./global.css";
 
 const sId = generate();
 const aId = generate();
@@ -67,28 +68,42 @@ const App = () => {
   });
 
   return (
-    <DragDropContext
-      onDragEnd={({ destination, source }) => {
-        // // dropped outside the list
-        if (!destination) {
-          return;
-        }
-
-        setRows(reorderRows(rows, source, destination));
-      }}
-    >
-      <div>
-        {rows.map((row) => (
-          <MovieList
-            internalScroll
-            key={row.id}
-            listId={row.id}
-            listType="CARD"
-            row={row}
-          />
-        ))}
+    <div style={{}}>
+      <div style={{ display: "block", textAlign: "center" }}>
+        <h1
+          style={{
+            color: "#db0000",
+            marginTop: "5vh",
+            letterSpacing: "3px",
+            fontSize: "45px",
+          }}
+        >
+          Tierflix
+        </h1>
       </div>
-    </DragDropContext>
+      <DragDropContext
+        onDragEnd={({ destination, source }) => {
+          // // dropped outside the list
+          if (!destination) {
+            return;
+          }
+
+          setRows(reorderRows(rows, source, destination));
+        }}
+      >
+        <div>
+          {rows.map((row) => (
+            <MovieList
+              internalScroll
+              key={row.id}
+              listId={row.id}
+              listType="CARD"
+              row={row}
+            />
+          ))}
+        </div>
+      </DragDropContext>
+    </div>
   );
 };
 

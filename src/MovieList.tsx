@@ -24,14 +24,28 @@ export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
             {...dropProvided.droppableProps}
             style={{ display: "flex", alignItems: "center" }}
           >
-            <div style={{ width: "5%" }}>{row.label}</div>
+            <div
+              style={{
+                width: "5%",
+                minHeight: "89px",
+                minWidth: "85px",
+                background: "#555",
+                textAlign: "center",
+                alignItems: "center",
+                margin: "auto",
+                verticalAlign: "middle",
+                lineHeight: "89px",
+              }}
+            >
+              {row.label}
+            </div>
             <div
               style={{
                 display: "flex",
-                backgroundColor: "pink",
-                margin: "20px",
+                backgroundColor: "#564d4d",
+                margin: "0",
                 width: "100%",
-                minHeight: "85px",
+                minHeight: "88.9px",
                 overflowX: "auto",
               }}
               ref={dropProvided.innerRef}
