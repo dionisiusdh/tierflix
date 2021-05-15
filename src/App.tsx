@@ -6,7 +6,11 @@ import { ColorMap } from "./types";
 import { MovieList } from "./MovieList";
 import images from "./images.json";
 
+const sId = generate();
 const aId = generate();
+const bId = generate();
+const cId = generate();
+const dId = generate();
 const unrankedId = generate();
 
 /**
@@ -19,16 +23,48 @@ const unrankedId = generate();
 const App = () => {
   const [rows, setRows] = React.useState([
     {
+      id: sId,
+      label: "S",
+      urls: [],
+    },
+    {
       id: aId,
-      label: "a",
+      label: "A",
+      urls: [],
+    },
+    {
+      id: bId,
+      label: "B",
+      urls: [],
+    },
+    {
+      id: cId,
+      label: "C",
+      urls: [],
+    },
+    {
+      id: dId,
+      label: "D",
       urls: [],
     },
     {
       id: unrankedId,
-      label: "unranked",
+      label: "",
       urls: images,
     },
   ]);
+
+  React.useEffect(() => {
+    const data = localStorage.getItem("tierflix-list");
+
+    if (data) {
+      setRows(JSON.parse(data));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    localStorage.setItem("tierflix-list", JSON.stringify(rows));
+  });
 
   return (
     <DragDropContext
@@ -42,20 +78,6 @@ const App = () => {
       }}
     >
       <div>
-        <button
-          onClick={() => {
-            setRows([
-              {
-                id: generate(),
-                label: "",
-                urls: [],
-              },
-              ...rows,
-            ]);
-          }}
-        >
-          Add Tier
-        </button>
         {rows.map((row) => (
           <MovieList
             internalScroll

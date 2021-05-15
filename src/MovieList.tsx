@@ -12,7 +12,7 @@ interface Props {
 
 export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
   return (
-    <>
+    <div>
       <Droppable
         droppableId={listId}
         type={listType}
@@ -20,12 +20,17 @@ export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
         isCombineEnabled={false}
       >
         {(dropProvided) => (
-          <div {...dropProvided.droppableProps}>
+          <div
+            {...dropProvided.droppableProps}
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <div style={{ width: "5%" }}>{row.label}</div>
             <div
               style={{
                 display: "flex",
                 backgroundColor: "pink",
                 margin: "20px",
+                width: "100%",
                 minHeight: "85px",
                 overflowX: "auto",
               }}
@@ -71,6 +76,6 @@ export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
             border-radius: 10px;
           }`}
       </style>
-    </>
+    </div>
   );
 };
