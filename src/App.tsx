@@ -1,19 +1,29 @@
 import * as React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import { reorderColors } from "./reorder";
+import { generate } from "shortid";
+import { reorderRows } from "./reorder";
 import { ColorMap } from "./types";
-import { AuthorList } from "./AuthorList";
+import { MovieList } from "./MovieList";
+
+const aId = generate();
+const unrankedId = generate();
 
 const App = () => {
-  const [colorMap, setColors] = React.useState<ColorMap>({
-    a: ["blue", "red", "yellow"],
-    b: ["pink"],
-    c: ["green", "tan"],
-    unranked: [
-      "https://d1qxviojg2h5lt.cloudfront.net/images/01CRXKFA2MRTVNWQ4CFD7A6RMJ/brooklynninenine400.png",
-      "https://telanganatoday.com/wp-content/uploads/2019/05/STRANGER-THINGS-400x400.jpg",
-    ],
-  });
+  const [rows, setRows] = React.useState([
+    {
+      id: aId,
+      label: "a",
+      urls: [],
+    },
+    {
+      id: unrankedId,
+      label: "unranked",
+      urls: [
+        "https://d1qxviojg2h5lt.cloudfront.net/images/01CRXKFA2MRTVNWQ4CFD7A6RMJ/brooklynninenine400.png",
+        "https://telanganatoday.com/wp-content/uploads/2019/05/STRANGER-THINGS-400x400.jpg",
+      ],
+    },
+  ]);
 
   return (
     <DragDropContext
@@ -23,17 +33,31 @@ const App = () => {
           return;
         }
 
-        setColors(reorderColors(colorMap, source, destination));
+        setRows(reorderRows(rows, source, destination));
       }}
     >
       <div>
-        {Object.entries(colorMap).map(([k, v]) => (
-          <AuthorList
+        <button
+          onClick={() => {
+            setRows([
+              {
+                id: generate(),
+                label: "",
+                urls: [],
+              },
+              ...rows,
+            ]);
+          }}
+        >
+          Add Tier
+        </button>
+        {rows.map((row) => (
+          <MovieList
             internalScroll
-            key={k}
-            listId={k}
+            key={row.id}
+            listId={row.id}
             listType="CARD"
-            colors={v}
+            row={row}
           />
         ))}
       </div>
