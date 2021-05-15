@@ -4,9 +4,17 @@ import { generate } from "shortid";
 import { reorderRows } from "./reorder";
 import { ColorMap } from "./types";
 import { MovieList } from "./MovieList";
+import images from "./images.json";
 
 const aId = generate();
 const unrankedId = generate();
+
+/**
+ * Scrape image
+ * imgs = []
+ * document.querySelectorAll('img.poster').forEach(x => imgs.push(x.src))
+ * JSON.stringify(imgs)
+ */
 
 const App = () => {
   const [rows, setRows] = React.useState([
@@ -18,10 +26,7 @@ const App = () => {
     {
       id: unrankedId,
       label: "unranked",
-      urls: [
-        "https://d1qxviojg2h5lt.cloudfront.net/images/01CRXKFA2MRTVNWQ4CFD7A6RMJ/brooklynninenine400.png",
-        "https://telanganatoday.com/wp-content/uploads/2019/05/STRANGER-THINGS-400x400.jpg",
-      ],
+      urls: images,
     },
   ]);
 
