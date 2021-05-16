@@ -3,6 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { generate } from "shortid";
 import { reorderRows } from "./utils/reorder";
 import { MovieList } from "./components/MovieList";
+import styled from "@emotion/styled";
 import images from "./images.json";
 
 import "./global.css";
@@ -13,13 +14,6 @@ const bId = generate();
 const cId = generate();
 const dId = generate();
 const unrankedId = generate();
-
-/**
- * Scrape image
- * imgs = []
- * document.querySelectorAll('img.poster').forEach(x => imgs.push(x.src))
- * JSON.stringify(imgs)
- */
 
 const App = () => {
   const [rows, setRows] = React.useState([
@@ -68,26 +62,16 @@ const App = () => {
   });
 
   return (
-    <div style={{}}>
-      <div style={{ display: "block", textAlign: "center" }}>
-        <h1
-          style={{
-            color: "#db0000",
-            marginTop: "5vh",
-            letterSpacing: "3px",
-            fontSize: "45px",
-          }}
-        >
-          Tierflix
-        </h1>
-      </div>
+    <Container>
+      <TitleContainer>
+        <h1>Tierflix</h1>
+      </TitleContainer>
       <DragDropContext
         onDragEnd={({ destination, source }) => {
-          // // dropped outside the list
+          // dropped outside the list
           if (!destination) {
             return;
           }
-
           setRows(reorderRows(rows, source, destination));
         }}
       >
@@ -103,8 +87,31 @@ const App = () => {
           ))}
         </div>
       </DragDropContext>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  background: url("./assets/images/main-bg-low-alpha.png") center center / cover
+    no-repeat fixed;
+  position: absolute;
+  inset: 0px;
+`;
+
+const TitleContainer = styled.div`
+  display: block;
+  text-align: center;
+
+  h1 {
+    color: #db0000;
+    margin: 2vh 0;
+    letter-spacing: 3px;
+    font-size: 50px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      1px 1px 0 #000;
+  }
+`;
 
 export default App;

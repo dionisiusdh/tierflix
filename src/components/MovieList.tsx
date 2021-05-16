@@ -1,6 +1,7 @@
 import React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { Row } from "../types/types";
+import styled from "@emotion/styled";
 
 interface Props {
   row: Row;
@@ -12,7 +13,7 @@ interface Props {
 
 export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
   return (
-    <div>
+    <Container>
       <Droppable
         droppableId={listId}
         type={listType}
@@ -24,21 +25,7 @@ export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
             {...dropProvided.droppableProps}
             style={{ display: "flex", alignItems: "center" }}
           >
-            <div
-              style={{
-                width: "5%",
-                minHeight: "89px",
-                minWidth: "85px",
-                background: "#555",
-                textAlign: "center",
-                alignItems: "center",
-                margin: "auto",
-                verticalAlign: "middle",
-                lineHeight: "89px",
-              }}
-            >
-              {row.label}
-            </div>
+            <TierLabel>{row.label}</TierLabel>
             <div
               style={{
                 display: "flex",
@@ -75,21 +62,22 @@ export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
           </div>
         )}
       </Droppable>
-      <style>
-        {`::-webkit-scrollbar {
-            width: .1rem;
-            height: .5rem;
-          }
-          
-          ::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
-          }
-          
-          ::-webkit-scrollbar-thumb {
-            background-color: darkgrey;
-            border-radius: 10px;
-          }`}
-      </style>
-    </div>
+      <style></style>
+    </Container>
   );
 };
+
+const Container = styled.div``;
+
+const TierLabel = styled.div`
+  width: 5%;
+  min-height: 89px;
+  min-width: 85px;
+  background: #555;
+  text-align: center;
+  align-items: center;
+  margin: auto;
+  vertical-align: middle;
+  line-height: 89px;
+  font-size: 28px;
+`;
