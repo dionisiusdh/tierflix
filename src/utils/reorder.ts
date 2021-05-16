@@ -1,5 +1,5 @@
 import { DraggableLocation } from "react-beautiful-dnd";
-import { Row } from "./types";
+import { Row } from "../types/types";
 
 // a little function to help us with reordering the result
 export const reorder = (

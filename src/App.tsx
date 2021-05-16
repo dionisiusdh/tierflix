@@ -1,8 +1,8 @@
 import * as React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { generate } from "shortid";
-import { reorderRows } from "./reorder";
-import { MovieList } from "./MovieList";
+import { reorderRows } from "./utils/reorder";
+import { MovieList } from "./components/MovieList";
 import images from "./images.json";
 
 import "./global.css";

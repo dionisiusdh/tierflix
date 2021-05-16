@@ -1,6 +1,6 @@
 import React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { Row } from "./types";
+import { Row } from "../types/types";
 
 interface Props {
   row: Row;
