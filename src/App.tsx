@@ -53,10 +53,9 @@ const App = () => {
   const [bkgColor] = React.useState<ColorMap>({
     S: "rgba(254, 163, 170, 1)",
     A: "rgba(248, 184, 139, 1)",
-    B: "rgba(250, 248, 132 ,1)",
-    C: "rgba(186, 237, 145 ,1)",
-    D: "rgba(178, 206, 254, ,1)",
-    E: "rgba(242, 162, 232 ,1)",
+    B: "rgba(250, 248, 132, 1)",
+    C: "rgba(186, 237, 145, 1)",
+    D: "rgba(178, 206, 254, 1)",
     unranked: "#000000",
   });
 
@@ -74,42 +73,71 @@ const App = () => {
 
   return (
     <Container>
-      <TitleContainer>
-        <h1>Tierflix</h1>
-      </TitleContainer>
-      <DragDropContext
-        onDragEnd={({ destination, source }) => {
-          // dropped outside the list
-          if (!destination) {
-            return;
-          }
-          setRows(reorderRows(rows, source, destination));
-        }}
-      >
-        <div>
-          {rows.map((row) => (
-            <MovieList
-              internalScroll
-              key={row.id}
-              listId={row.id}
-              listType="CARD"
-              row={row}
-              bkgColor={bkgColor[row.label]}
-            />
-          ))}
-        </div>
-      </DragDropContext>
+      <DragDropContainer>
+        <TitleContainer>
+          <h1>Tierflix</h1>
+        </TitleContainer>
+        <DragDropContext
+          onDragEnd={({ destination, source }) => {
+            // dropped outside the list
+            if (!destination) {
+              return;
+            }
+            setRows(reorderRows(rows, source, destination));
+          }}
+        >
+          <div>
+            {rows.map((row) => (
+              <MovieList
+                internalScroll
+                key={row.id}
+                listId={row.id}
+                listType="CARD"
+                row={row}
+                bkgColor={bkgColor[row.label]}
+              />
+            ))}
+          </div>
+        </DragDropContext>
+      </DragDropContainer>
+      <SearchContainer>
+        <h1>Add Your Own Show!</h1>
+        <FormContainer>
+          <form onSubmit={(e) => e.preventDefault()} />
+          <input placeholder="Your Netflix Show..." />
+          <button>Add</button>
+        </FormContainer>
+      </SearchContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
   background: url("./assets/images/main-bg-low-alpha.png") center center / cover
     no-repeat fixed;
   position: absolute;
   inset: 0px;
+`;
+
+const DragDropContainer = styled.div`
+  width: 100%;
+  background: url("./assets/images/main-bg-low-alpha.png") center center / cover
+    no-repeat fixed;
+`;
+
+const SearchContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url("./assets/images/main-bg-low-alpha.png") center center / cover
+    no-repeat fixed;
+
+  h1 {
+    color: #fff;
+    letter-spacing: 1.6px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -123,6 +151,15 @@ const TitleContainer = styled.div`
     font-size: 50px;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
       1px 1px 0 #000;
+  }
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+
+  button {
+    width: 80px;
+    height: 30px;
   }
 `;
 
