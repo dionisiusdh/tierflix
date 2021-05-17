@@ -9,9 +9,15 @@ interface Props {
   listType?: string;
   internalScroll?: boolean;
   isCombineEnabled?: boolean;
+  bkgColor?: string;
 }
 
-export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
+export const MovieList: React.FC<Props> = ({
+  listId,
+  listType,
+  row,
+  bkgColor,
+}) => {
   return (
     <Container>
       <Droppable
@@ -25,40 +31,26 @@ export const MovieList: React.FC<Props> = ({ listId, listType, row }) => {
             {...dropProvided.droppableProps}
             style={{ display: "flex", alignItems: "center" }}
           >
-            <TierLabel>{row.label}</TierLabel>
-            <div
-              style={{
-                display: "flex",
-                backgroundColor: "#564d4d",
-                margin: "0",
-                width: "100%",
-                minHeight: "88.9px",
-                overflowX: "auto",
-              }}
+            <TierLabel>{row.label !== "unranked" ? row.label : ""}</TierLabel>
+            <RowContainer
+              style={{ backgroundColor: bkgColor }}
               ref={dropProvided.innerRef}
             >
               {row.urls.map((url, index) => (
                 <Draggable key={url} draggableId={url} index={index}>
                   {(dragProvided) => (
-                    <div
+                    <DragImgContainer
                       {...dragProvided.dragHandleProps}
                       {...dragProvided.draggableProps}
                       ref={dragProvided.innerRef}
                     >
-                      <img
-                        style={{
-                          width: "130px",
-                          height: "80px",
-                          marginRight: "5px",
-                        }}
-                        src={url}
-                      />
-                    </div>
+                      <img src={url} />
+                    </DragImgContainer>
                   )}
                 </Draggable>
               ))}
               {dropProvided.placeholder}
-            </div>
+            </RowContainer>
           </div>
         )}
       </Droppable>
@@ -71,13 +63,34 @@ const Container = styled.div``;
 
 const TierLabel = styled.div`
   width: 5%;
-  min-height: 89px;
+  height: 87px;
   min-width: 85px;
-  background: #555;
+  color: #fff;
+  background: #000;
   text-align: center;
   align-items: center;
   margin: auto;
   vertical-align: middle;
   line-height: 89px;
   font-size: 28px;
+  border: 1px solid #555;
+`;
+
+const RowContainer = styled.div`
+  display: flex;
+  margin: 0;
+  width: 100%;
+  min-height: 88.9px;
+  overflow-x: auto;
+`;
+
+const DragImgContainer = styled.div`
+  padding: 0;
+
+  img {
+    width: 130px;
+    height: 80px;
+    margin: 0;
+    margin-right: 5px;
+  }
 `;

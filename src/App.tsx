@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 import images from "./images.json";
 
 import "./global.css";
+import { ColorMap } from "./types/types";
 
 const sId = generate();
 const aId = generate();
@@ -44,10 +45,20 @@ const App = () => {
     },
     {
       id: unrankedId,
-      label: "",
+      label: "unranked",
       urls: images,
     },
   ]);
+
+  const [bkgColor] = React.useState<ColorMap>({
+    S: "rgba(254, 163, 170, 1)",
+    A: "rgba(248, 184, 139, 1)",
+    B: "rgba(250, 248, 132 ,1)",
+    C: "rgba(186, 237, 145 ,1)",
+    D: "rgba(178, 206, 254, ,1)",
+    E: "rgba(242, 162, 232 ,1)",
+    unranked: "#000000",
+  });
 
   React.useEffect(() => {
     const data = localStorage.getItem("tierflix-list");
@@ -83,6 +94,7 @@ const App = () => {
               listId={row.id}
               listType="CARD"
               row={row}
+              bkgColor={bkgColor[row.label]}
             />
           ))}
         </div>
