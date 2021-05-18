@@ -31,11 +31,10 @@ export const MovieList: React.FC<Props> = ({
             {...dropProvided.droppableProps}
             style={{ display: "flex", alignItems: "center" }}
           >
-            <TierLabel>{row.label !== "unranked" ? row.label : ""}</TierLabel>
-            <RowContainer
-              style={{ backgroundColor: bkgColor }}
-              ref={dropProvided.innerRef}
-            >
+            <TierLabel style={{ backgroundColor: bkgColor }}>
+              {row.label !== "unranked" ? row.label : ""}
+            </TierLabel>
+            <RowContainer ref={dropProvided.innerRef}>
               {row.urls.map((url, index) => (
                 <Draggable key={url} draggableId={url} index={index}>
                   {(dragProvided) => (
@@ -65,8 +64,7 @@ const TierLabel = styled.div`
   width: 5%;
   height: 87px;
   min-width: 85px;
-  color: #fff;
-  background: #000;
+  color: #000;
   text-align: center;
   align-items: center;
   margin: auto;
@@ -82,6 +80,8 @@ const RowContainer = styled.div`
   width: 100%;
   min-height: 88.9px;
   overflow-x: auto;
+  background: linear-gradient(to right, #16222a, #3a6073);
+  border: 1px solid #000;
 `;
 
 const DragImgContainer = styled.div`

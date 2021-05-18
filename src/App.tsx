@@ -59,12 +59,24 @@ const App = () => {
     unranked: "#000000",
   });
 
+  const [searchTitle, setSearchTitle] = React.useState("");
+
+  const handleSearch = (title: string) => {
+    let words = title.split(" ");
+    words.map((word: string) => word.toLowerCase());
+    setSearchTitle(words.join("-"));
+  };
+
   React.useEffect(() => {
     const data = localStorage.getItem("tierflix-list");
 
     if (data) {
       setRows(JSON.parse(data));
     }
+
+    fetch("https://flixable.com/title/alma-matters/").then((res) =>
+      console.log(res.text())
+    );
   }, []);
 
   React.useEffect(() => {
@@ -104,7 +116,10 @@ const App = () => {
         <h1>Add Your Own Show!</h1>
         <FormContainer>
           <form onSubmit={(e) => e.preventDefault()} />
-          <input placeholder="Your Netflix Show..." />
+          <input
+            onChange={(e) => setSearchTitle(e.target.value)}
+            placeholder="Your Netflix Show..."
+          />
           <button>Add</button>
         </FormContainer>
       </SearchContainer>
@@ -131,8 +146,7 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url("./assets/images/main-bg-low-alpha.png") center center / cover
-    no-repeat fixed;
+  background: #555;
 
   h1 {
     color: #fff;

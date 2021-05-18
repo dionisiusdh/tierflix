@@ -1,6 +1,0 @@
-/**
- * Scrape image
- * imgs = []
- * document.querySelectorAll('img.poster').forEach(x => imgs.push(x.src))
- * JSON.stringify(imgs)
- */
