@@ -97,20 +97,17 @@ const App = () => {
           urls: imgResult,
         },
       ]);
-      // setSearchRow([
-      //   { id: searchRow[0].id, label: searchRow[0].label, urls: imgResult },
-      // ]);
     } else {
-      setSearchRow([
-        ...searchRow,
-        {
-          id: searchId,
-          label: "unranked",
-          urls: [
-            "https://occ-0-990-987.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABTk2Z6i2UPFWfaw9KO6WoJ9QQ4tnjOqVT355a4K6Ex2J68DQNyae56iykNOaIVZ7sQVVEfl2wwOlu5oyPgU6dUJ1B6c.jpg?r=6ce",
-          ],
-        },
-      ]);
+      // setSearchRow([
+      //   ...searchRow,
+      //   {
+      //     id: searchId,
+      //     label: "unranked",
+      //     urls: [
+      //       "https://occ-0-990-987.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABTk2Z6i2UPFWfaw9KO6WoJ9QQ4tnjOqVT355a4K6Ex2J68DQNyae56iykNOaIVZ7sQVVEfl2wwOlu5oyPgU6dUJ1B6c.jpg?r=6ce",
+      //     ],
+      //   },
+      // ]);
     }
   }, [searchTitle]);
 
