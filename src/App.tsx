@@ -4,7 +4,8 @@ import { generate } from "shortid";
 import { reorderRows } from "./utils/reorder";
 import { MovieList } from "./components/MovieList";
 import styled from "@emotion/styled";
-import images from "./images.json";
+import data from "./data.json";
+import datainit from "./datainit.json";
 
 import "./global.css";
 import { ColorMap } from "./types/types";
@@ -15,8 +16,10 @@ const bId = generate();
 const cId = generate();
 const dId = generate();
 const unrankedId = generate();
+const searchId = generate();
 
 const App = () => {
+  const movieData = data;
   const [rows, setRows] = React.useState([
     {
       id: sId,
@@ -46,7 +49,7 @@ const App = () => {
     {
       id: unrankedId,
       label: "unranked",
-      urls: images,
+      urls: datainit,
     },
   ]);
 
@@ -61,11 +64,55 @@ const App = () => {
 
   const [searchTitle, setSearchTitle] = React.useState("");
 
-  const handleSearch = (title: string) => {
-    let words = title.split(" ");
-    words.map((word: string) => word.toLowerCase());
-    setSearchTitle(words.join("-"));
-  };
+  const [searchRow, setSearchRow] = React.useState([
+    {
+      id: searchId,
+      label: "unranked",
+      urls: [
+        "https://occ-0-990-987.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABTk2Z6i2UPFWfaw9KO6WoJ9QQ4tnjOqVT355a4K6Ex2J68DQNyae56iykNOaIVZ7sQVVEfl2wwOlu5oyPgU6dUJ1B6c.jpg?r=6ce",
+      ],
+    },
+  ]);
+
+  React.useEffect(() => {
+    console.log(searchTitle);
+
+    const imgResult: string[] = [];
+
+    const searchResult = movieData.forEach((movie) =>
+      movie.title.toLowerCase().includes(searchTitle) && searchTitle.length > 2
+        ? imgResult.push(movie.img)
+        : null
+    );
+
+    console.log(imgResult);
+
+    if (imgResult !== []) {
+      searchRow.pop();
+      setSearchRow([
+        ...searchRow,
+        {
+          id: searchId,
+          label: "unranked",
+          urls: imgResult,
+        },
+      ]);
+      // setSearchRow([
+      //   { id: searchRow[0].id, label: searchRow[0].label, urls: imgResult },
+      // ]);
+    } else {
+      setSearchRow([
+        ...searchRow,
+        {
+          id: searchId,
+          label: "unranked",
+          urls: [
+            "https://occ-0-990-987.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABTk2Z6i2UPFWfaw9KO6WoJ9QQ4tnjOqVT355a4K6Ex2J68DQNyae56iykNOaIVZ7sQVVEfl2wwOlu5oyPgU6dUJ1B6c.jpg?r=6ce",
+          ],
+        },
+      ]);
+    }
+  }, [searchTitle]);
 
   React.useEffect(() => {
     const data = localStorage.getItem("tierflix-list");
@@ -73,10 +120,6 @@ const App = () => {
     if (data) {
       setRows(JSON.parse(data));
     }
-
-    fetch("https://flixable.com/title/alma-matters/").then((res) =>
-      console.log(res.text())
-    );
   }, []);
 
   React.useEffect(() => {
@@ -114,13 +157,37 @@ const App = () => {
       </DragDropContainer>
       <SearchContainer>
         <h1>Add Your Own Show!</h1>
+
+        <DragDropContext
+          onDragEnd={({ destination, source }) => {
+            // dropped outside the list
+            if (!destination) {
+              return;
+            }
+            setSearchRow(reorderRows(searchRow, source, destination));
+          }}
+        >
+          <div>
+            {searchRow.map((row) => (
+              <MovieList
+                internalScroll
+                key={row.id}
+                listId={row.id}
+                listType="CARD"
+                row={row}
+                bkgColor={bkgColor[row.label]}
+              />
+            ))}
+          </div>
+        </DragDropContext>
         <FormContainer>
           <form onSubmit={(e) => e.preventDefault()} />
           <input
-            onChange={(e) => setSearchTitle(e.target.value)}
+            onChange={(e) => {
+              setSearchTitle(e.target.value);
+            }}
             placeholder="Your Netflix Show..."
           />
-          <button>Add</button>
         </FormContainer>
       </SearchContainer>
     </Container>

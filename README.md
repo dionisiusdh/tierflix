@@ -6,6 +6,7 @@
 
 - Rank Netflix Shows on Various Tier
 - Dynamic Drag and Drop Functionality
+- 650+ Netflix Shows Scraped Data
 
 ## Technologies
 
