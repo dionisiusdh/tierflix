@@ -23,11 +23,12 @@ const searchId = generate();
  * TODO:
  * Set search limit
  * Reset button
+ * Title styling
+ * Other styling
  */
 
 const App = () => {
   const DEBUG = true;
-
   const movieData = DEBUG ? datasmall : data;
   const bkgColor: ColorMap = {
     S: "rgba(254, 163, 170, 1)",
@@ -136,11 +137,17 @@ const App = () => {
     localStorage.setItem("tierflix-list", JSON.stringify(rows));
   });
 
+  const handleReset = () => {
+    localStorage.removeItem("tierflix-list");
+    window.location.reload();
+  };
+
   return (
     <Container>
       <DragDropContainer>
         <TitleContainer>
           <h1>Tierflix</h1>
+          <button onClick={() => handleReset()}>Reset</button>
         </TitleContainer>
         <DragDropContext
           onDragEnd={({ destination, source }) => {
@@ -194,6 +201,41 @@ const DragDropContainer = styled.div`
     no-repeat fixed;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+
+  h1 {
+    color: #db0000;
+    margin: 2vh 0;
+    letter-spacing: 3px;
+    font-size: 50px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      1px 1px 0 #000;
+  }
+
+  button {
+    width: 100px;
+    height: 30px;
+    font-family: sans-serif;
+    font-weight: bold;
+    background: rgba(249, 249, 249, 0.5);
+    cursor: pointer;
+    transition-duration: 0.2s;
+    border-radius: 5px;
+    border: none;
+
+    &:hover {
+      background: rgba(100, 100, 100, 0.5);
+      color: rgba(249, 249, 249, 0.5);
+      transition-duration: 0.2s;
+    }
+  }
+`;
+
 const SearchContainer = styled.div`
   width: 100%;
   display: flex;
@@ -211,20 +253,6 @@ const SearchContainer = styled.div`
     height: 10px;
     color: #fff;
     letter-spacing: 1.6px;
-  }
-`;
-
-const TitleContainer = styled.div`
-  display: block;
-  text-align: center;
-
-  h1 {
-    color: #db0000;
-    margin: 2vh 0;
-    letter-spacing: 3px;
-    font-size: 50px;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-      1px 1px 0 #000;
   }
 `;
 
