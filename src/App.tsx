@@ -146,7 +146,7 @@ const App = () => {
     <Container>
       <DragDropContainer>
         <TitleContainer>
-          <h1>Tierflix</h1>
+          <img src="./assets/images/title.png" />
           <button onClick={() => handleReset()}>Reset</button>
         </TitleContainer>
         <DragDropContext
@@ -215,6 +215,12 @@ const TitleContainer = styled.div`
     font-size: 50px;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
       1px 1px 0 #000;
+  }
+
+  img {
+    height: 70px;
+    width: 180px;
+    margin: 10px 0;
   }
 
   button {

@@ -1,4 +1,4 @@
-<h1 style="color: red"><strong>Tierflix</strong></h1>
+<img src="public/assets/images/title.png" style="width: 180px; height: 70px"/>
 
 > Create Your Own Netflix Shows' Tier List
 
