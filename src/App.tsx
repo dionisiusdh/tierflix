@@ -256,10 +256,15 @@ const SearchContainer = styled.div`
     color: #fff;
     letter-spacing: 1.6px;
     font-family: Helvetica, sans-serif;
+
+    @media (max-width: 768px) {
+      font-size: 10px;
+    }
   }
 
   input {
     width: 22.5%;
+    min-width: 200px;
     height: 30px;
     padding: 3px 7px;
     font-size: 17px;
