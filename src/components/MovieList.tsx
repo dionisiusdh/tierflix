@@ -11,7 +11,7 @@ export const MovieList: React.FC<MovieListProps> = ({
 }) => {
   return (
     <Container>
-      {row.label === "search" ? <h1>Add Your Own Show!</h1> : null}
+      {row.label === "search" ? <h1>🎬Add Your Own Show!</h1> : null}
       <Droppable
         droppableId={listId}
         type={listType}
@@ -23,7 +23,13 @@ export const MovieList: React.FC<MovieListProps> = ({
             {...dropProvided.droppableProps}
             style={{ display: "flex", alignItems: "center" }}
           >
-            <TierLabel style={{ backgroundColor: bkgColor }}>
+            <TierLabel
+              style={
+                row.label.length === 1
+                  ? { backgroundColor: bkgColor }
+                  : { backgroundColor: bkgColor, display: "none" }
+              }
+            >
               {row.label.length === 1 ? row.label : ""}
             </TierLabel>
             <RowContainer ref={dropProvided.innerRef}>
@@ -54,12 +60,11 @@ const Container = styled.div`
   display: inline;
 
   h1 {
-    display: flex;
-    justify-content: center;
-    color: #db0000;
-    margin: 2vh 0;
-    letter-spacing: 3px;
+    color: #fff;
+    margin: 2vh 2vw;
+    letter-spacing: 1px;
     font-size: 30px;
+    font-family: Helvetica, sans-serif;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
       1px 1px 0 #000;
   }

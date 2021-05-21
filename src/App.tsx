@@ -22,13 +22,11 @@ const searchId = generate();
 /**
  * TODO:
  * Set search limit
- * Reset button
- * Title styling
  * Other styling
  */
 
 const App = () => {
-  const DEBUG = true;
+  const DEBUG = false;
   const movieData = DEBUG ? datasmall : data;
   const bkgColor: ColorMap = {
     S: "rgba(254, 163, 170, 1)",
@@ -113,15 +111,7 @@ const App = () => {
         },
       ]);
     } else {
-      rows.pop();
-      setRows([
-        ...rows,
-        {
-          id: searchId,
-          label: "search",
-          urls: [],
-        },
-      ]);
+      emptySearchRow();
     }
   }, [searchTitle]);
 
@@ -140,6 +130,18 @@ const App = () => {
   const handleReset = () => {
     localStorage.removeItem("tierflix-list");
     window.location.reload();
+  };
+
+  const emptySearchRow = () => {
+    rows.pop();
+    setRows([
+      ...rows,
+      {
+        id: searchId,
+        label: "search",
+        urls: [],
+      },
+    ]);
   };
 
   return (
@@ -171,15 +173,13 @@ const App = () => {
             ))}
           </div>
           <SearchContainer>
+            <input
+              onChange={(e) => {
+                setSearchTitle(e.target.value);
+              }}
+              placeholder="Your Netflix Show..."
+            />
             {searchTitle ? <p>Showing results for: {searchTitle}</p> : <p></p>}
-            <form onSubmit={(e) => e.preventDefault()}>
-              <input
-                onChange={(e) => {
-                  setSearchTitle(e.target.value);
-                }}
-                placeholder="Your Netflix Show..."
-              />
-            </form>
           </SearchContainer>
         </DragDropContext>
       </DragDropContainer>
@@ -225,18 +225,18 @@ const TitleContainer = styled.div`
 
   button {
     width: 100px;
-    height: 30px;
-    font-family: sans-serif;
+    height: 35px;
+    font-family: Helvetica, sans-serif;
     font-weight: bold;
-    background: rgba(249, 249, 249, 0.5);
+    background: rgba(249, 249, 249, 0.7);
     cursor: pointer;
     transition-duration: 0.2s;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
 
     &:hover {
       background: rgba(100, 100, 100, 0.5);
-      color: rgba(249, 249, 249, 0.5);
+      color: rgba(249, 249, 249, 0.7);
       transition-duration: 0.2s;
     }
   }
@@ -245,20 +245,27 @@ const TitleContainer = styled.div`
 const SearchContainer = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  background: #555;
-
-  h1 {
-    color: #fff;
-    letter-spacing: 1.6px;
-  }
+  padding: 10px 35px;
 
   p {
     width: auto;
     height: 10px;
+    margin: 0 15px;
     color: #fff;
     letter-spacing: 1.6px;
+    font-family: Helvetica, sans-serif;
+  }
+
+  input {
+    width: 22.5%;
+    height: 30px;
+    padding: 3px 7px;
+    font-size: 17px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
   }
 `;
 
