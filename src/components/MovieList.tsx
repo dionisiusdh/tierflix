@@ -1,18 +1,9 @@
 import React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { Row } from "../types/types";
+import { MovieListProps, Row } from "../types/types";
 import styled from "@emotion/styled";
 
-interface Props {
-  row: Row;
-  listId: string;
-  listType?: string;
-  internalScroll?: boolean;
-  isCombineEnabled?: boolean;
-  bkgColor?: string;
-}
-
-export const MovieList: React.FC<Props> = ({
+export const MovieList: React.FC<MovieListProps> = ({
   listId,
   listType,
   row,
@@ -20,6 +11,7 @@ export const MovieList: React.FC<Props> = ({
 }) => {
   return (
     <Container>
+      {row.label === "search" ? <h1>Add Your Own Show!</h1> : null}
       <Droppable
         droppableId={listId}
         type={listType}
@@ -32,7 +24,7 @@ export const MovieList: React.FC<Props> = ({
             style={{ display: "flex", alignItems: "center" }}
           >
             <TierLabel style={{ backgroundColor: bkgColor }}>
-              {row.label !== "unranked" ? row.label : ""}
+              {row.label.length === 1 ? row.label : ""}
             </TierLabel>
             <RowContainer ref={dropProvided.innerRef}>
               {row.urls.map((url, index) => (
@@ -58,7 +50,20 @@ export const MovieList: React.FC<Props> = ({
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: inline;
+
+  h1 {
+    display: flex;
+    justify-content: center;
+    color: #db0000;
+    margin: 2vh 0;
+    letter-spacing: 3px;
+    font-size: 30px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+      1px 1px 0 #000;
+  }
+`;
 
 const TierLabel = styled.div`
   width: 5%;

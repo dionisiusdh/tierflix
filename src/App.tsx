@@ -4,8 +4,9 @@ import { generate } from "shortid";
 import { reorderRows } from "./utils/reorder";
 import { MovieList } from "./components/MovieList";
 import styled from "@emotion/styled";
-import data from "./data.json";
-import datainit from "./datainit.json";
+import data from "./data/data.json";
+import datainit from "./data/datainit.json";
+import datasmall from "./data/datasmall.json";
 
 import "./global.css";
 import { ColorMap } from "./types/types";
@@ -18,8 +19,26 @@ const dId = generate();
 const unrankedId = generate();
 const searchId = generate();
 
+/**
+ * TODO:
+ * Set search limit
+ * Reset button
+ */
+
 const App = () => {
-  const movieData = data;
+  const DEBUG = true;
+
+  const movieData = DEBUG ? datasmall : data;
+  const bkgColor: ColorMap = {
+    S: "rgba(254, 163, 170, 1)",
+    A: "rgba(248, 184, 139, 1)",
+    B: "rgba(250, 248, 132, 1)",
+    C: "rgba(186, 237, 145, 1)",
+    D: "rgba(178, 206, 254, 1)",
+    unranked: "#000000",
+    search: "#000000",
+  };
+
   const [rows, setRows] = React.useState([
     {
       id: sId,
@@ -51,63 +70,57 @@ const App = () => {
       label: "unranked",
       urls: datainit,
     },
-  ]);
-
-  const [bkgColor] = React.useState<ColorMap>({
-    S: "rgba(254, 163, 170, 1)",
-    A: "rgba(248, 184, 139, 1)",
-    B: "rgba(250, 248, 132, 1)",
-    C: "rgba(186, 237, 145, 1)",
-    D: "rgba(178, 206, 254, 1)",
-    unranked: "#000000",
-  });
-
-  const [searchTitle, setSearchTitle] = React.useState("");
-
-  const [searchRow, setSearchRow] = React.useState([
     {
       id: searchId,
-      label: "unranked",
-      urls: [
-        "https://occ-0-990-987.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABTk2Z6i2UPFWfaw9KO6WoJ9QQ4tnjOqVT355a4K6Ex2J68DQNyae56iykNOaIVZ7sQVVEfl2wwOlu5oyPgU6dUJ1B6c.jpg?r=6ce",
-      ],
+      label: "search",
+      urls: [],
     },
   ]);
 
-  React.useEffect(() => {
-    console.log(searchTitle);
+  const isMovieExist = (url: string) => {
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i].urls.includes(url)) {
+        return true;
+      }
+    }
+    return false;
+  };
 
+  const [searchTitle, setSearchTitle] = React.useState("");
+  const [limitSearch, setLimitSearch] = React.useState(10);
+
+  React.useEffect(() => {
     const imgResult: string[] = [];
 
     const searchResult = movieData.forEach((movie) =>
-      movie.title.toLowerCase().includes(searchTitle) && searchTitle.length > 2
+      movie.title.toLowerCase().includes(searchTitle) &&
+      searchTitle.length > 2 &&
+      !isMovieExist(movie.img) &&
+      imgResult.length < limitSearch
         ? imgResult.push(movie.img)
         : null
     );
 
-    console.log(imgResult);
-
-    if (imgResult !== []) {
-      searchRow.pop();
-      setSearchRow([
-        ...searchRow,
+    if (imgResult.length != 0) {
+      rows.pop();
+      setRows([
+        ...rows,
         {
           id: searchId,
-          label: "unranked",
+          label: "search",
           urls: imgResult,
         },
       ]);
     } else {
-      // setSearchRow([
-      //   ...searchRow,
-      //   {
-      //     id: searchId,
-      //     label: "unranked",
-      //     urls: [
-      //       "https://occ-0-990-987.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABTk2Z6i2UPFWfaw9KO6WoJ9QQ4tnjOqVT355a4K6Ex2J68DQNyae56iykNOaIVZ7sQVVEfl2wwOlu5oyPgU6dUJ1B6c.jpg?r=6ce",
-      //     ],
-      //   },
-      // ]);
+      rows.pop();
+      setRows([
+        ...rows,
+        {
+          id: searchId,
+          label: "search",
+          urls: [],
+        },
+      ]);
     }
   }, [searchTitle]);
 
@@ -150,43 +163,19 @@ const App = () => {
               />
             ))}
           </div>
+          <SearchContainer>
+            {searchTitle ? <p>Showing results for: {searchTitle}</p> : <p></p>}
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                onChange={(e) => {
+                  setSearchTitle(e.target.value);
+                }}
+                placeholder="Your Netflix Show..."
+              />
+            </form>
+          </SearchContainer>
         </DragDropContext>
       </DragDropContainer>
-      <SearchContainer>
-        <h1>Add Your Own Show!</h1>
-
-        <DragDropContext
-          onDragEnd={({ destination, source }) => {
-            // dropped outside the list
-            if (!destination) {
-              return;
-            }
-            setSearchRow(reorderRows(searchRow, source, destination));
-          }}
-        >
-          <div>
-            {searchRow.map((row) => (
-              <MovieList
-                internalScroll
-                key={row.id}
-                listId={row.id}
-                listType="CARD"
-                row={row}
-                bkgColor={bkgColor[row.label]}
-              />
-            ))}
-          </div>
-        </DragDropContext>
-        <FormContainer>
-          <form onSubmit={(e) => e.preventDefault()} />
-          <input
-            onChange={(e) => {
-              setSearchTitle(e.target.value);
-            }}
-            placeholder="Your Netflix Show..."
-          />
-        </FormContainer>
-      </SearchContainer>
     </Container>
   );
 };
@@ -213,6 +202,13 @@ const SearchContainer = styled.div`
   background: #555;
 
   h1 {
+    color: #fff;
+    letter-spacing: 1.6px;
+  }
+
+  p {
+    width: auto;
+    height: 10px;
     color: #fff;
     letter-spacing: 1.6px;
   }
