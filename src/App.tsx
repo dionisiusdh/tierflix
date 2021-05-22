@@ -1,15 +1,16 @@
-import * as React from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { generate } from "shortid";
 import { reorderRows } from "./utils/reorder";
 import { MovieList } from "./components/MovieList";
+import { ColorMap } from "./types/types";
 import styled from "@emotion/styled";
 import data from "./data/data.json";
 import datainit from "./data/datainit.json";
 import datasmall from "./data/datasmall.json";
 
 import "./global.css";
-import { ColorMap } from "./types/types";
 
 const sId = generate();
 const aId = generate();
@@ -40,7 +41,7 @@ const App = () => {
     search: "#000000",
   };
 
-  const [rows, setRows] = React.useState([
+  const [rows, setRows] = useState([
     {
       id: sId,
       label: "S",
@@ -87,10 +88,10 @@ const App = () => {
     return false;
   };
 
-  const [searchTitle, setSearchTitle] = React.useState("");
-  const [limitSearch, setLimitSearch] = React.useState(10);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [limitSearch, setLimitSearch] = useState(10);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const imgResult: string[] = [];
 
     const searchResult = movieData.forEach((movie) =>
@@ -117,7 +118,7 @@ const App = () => {
     }
   }, [searchTitle]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const data = localStorage.getItem("tierflix-list");
 
     if (data) {
@@ -125,7 +126,7 @@ const App = () => {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("tierflix-list", JSON.stringify(rows));
   });
 
@@ -245,14 +246,14 @@ const TitleContainer = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  width: 100%;
+  width: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 10px 35px;
 
   p {
-    max-width: 35%;
+    width: auto;
     height: 20px;
     margin: 0 15px;
     color: #fff;
@@ -260,7 +261,6 @@ const SearchContainer = styled.div`
     font-family: Helvetica, sans-serif;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
 
     @media (max-width: 768px) {
       max-width: 45%;
@@ -282,15 +282,6 @@ const SearchContainer = styled.div`
       font-size: 12px;
       height: 25px;
     }
-  }
-`;
-
-const FormContainer = styled.div`
-  display: flex;
-
-  button {
-    width: 80px;
-    height: 30px;
   }
 `;
 
