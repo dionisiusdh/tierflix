@@ -5,6 +5,8 @@
 // titles = []
 // document.querySelectorAll('h5.card-title').forEach(x => titles.push(x.innerHTML))
 // JSON.stringify(titles)
-// for (let i=0; i<680; i++) { map[titles[i]] = imgs[i] }
+// res = []
+// for (let i=0; i<1880; i++) { let a = {}; a["title"]=titles[i]; a["img"] = imgs[i]; res.push(a); }
+// JSON.stringify(res)
 
 export default test;

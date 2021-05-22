@@ -5,8 +5,9 @@
 ## Features
 
 - Rank Netflix Shows on Various Tier
-- 650+ Netflix Shows Scraped Data
 - Dynamic Drag and Drop Functionality
+- 1800+ Netflix Shows Scraped Data (from [Flixable](https://flixable.com/))
+- Add Your Own Shows from the Vast Collection
 - Reset Your Tier
 
 ## Technologies
