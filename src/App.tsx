@@ -253,7 +253,7 @@ const SearchContainer = styled.div`
 
   p {
     max-width: 35%;
-    height: 15px;
+    height: 20px;
     margin: 0 15px;
     color: #fff;
     letter-spacing: 1.6px;
