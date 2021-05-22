@@ -94,7 +94,7 @@ const App = () => {
     const imgResult: string[] = [];
 
     const searchResult = movieData.forEach((movie) =>
-      movie.title.toLowerCase().includes(searchTitle) &&
+      movie.title.toLowerCase().includes(searchTitle.toLowerCase()) &&
       searchTitle.length > 2 &&
       !isMovieExist(movie.img) &&
       imgResult.length < limitSearch

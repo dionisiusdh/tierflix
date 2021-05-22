@@ -2,6 +2,8 @@
 
 > Create Your Own Netflix Shows' Tier List
 
+[**Live Demo**](https://tierflix.netlify.app/)
+
 ## Features
 
 - Rank Netflix Shows on Various Tier
