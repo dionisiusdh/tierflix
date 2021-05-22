@@ -1,4 +1,4 @@
-// Scrape image
+// Scrape image from your browser
 // imgs = []
 // document.querySelectorAll('img.poster').forEach(x => imgs.push(x.src))
 // JSON.stringify(imgs)

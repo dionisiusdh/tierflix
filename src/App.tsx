@@ -252,14 +252,18 @@ const SearchContainer = styled.div`
   padding: 10px 35px;
 
   p {
-    width: auto;
-    height: 10px;
+    max-width: 35%;
+    height: 15px;
     margin: 0 15px;
     color: #fff;
     letter-spacing: 1.6px;
     font-family: Helvetica, sans-serif;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 
     @media (max-width: 768px) {
+      max-width: 45%;
       font-size: 10px;
     }
   }
@@ -273,6 +277,11 @@ const SearchContainer = styled.div`
     border-radius: 3px;
     border: none;
     outline: none;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+      height: 25px;
+    }
   }
 `;
 
