@@ -23,7 +23,6 @@ const searchId = generate();
 
 /**
  * TODO:
- * Set search limit
  * Share
  * Delete Show
  * Other styling

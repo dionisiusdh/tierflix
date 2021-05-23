@@ -2,7 +2,9 @@
 
 > Create Your Own Netflix Shows' Tier List
 
-[**Live Demo**](https://tierflix.netlify.app/)
+> [**Live Demo**](https://tierflix.netlify.app/)
+
+![](./demo.png)
 
 ## Features
 
