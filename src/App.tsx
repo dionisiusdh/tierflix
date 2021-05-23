@@ -5,6 +5,7 @@ import { generate } from "shortid";
 import { reorderRows } from "./utils/reorder";
 import { MovieList } from "./components/MovieList";
 import { ColorMap } from "./types/types";
+import Select from "react-select";
 import styled from "@emotion/styled";
 import data from "./data/data.json";
 import datainit from "./data/datainit.json";
@@ -40,6 +41,11 @@ const App = () => {
     unranked: "#000000",
     search: "#000000",
   };
+  const selectOptions = [
+    { value: 10, label: "10" },
+    { value: 20, label: "20" },
+    { value: 50, label: "50" },
+  ];
 
   const [rows, setRows] = useState([
     {
@@ -116,7 +122,7 @@ const App = () => {
     } else {
       emptySearchRow();
     }
-  }, [searchTitle]);
+  }, [searchTitle, limitSearch]);
 
   useEffect(() => {
     const data = localStorage.getItem("tierflix-list");
@@ -149,11 +155,28 @@ const App = () => {
 
   return (
     <Container>
-      <DragDropContainer>
+      <Header>
         <TitleContainer>
           <img src="./assets/images/title.png" />
-          <button onClick={() => handleReset()}>Reset</button>
         </TitleContainer>
+        <MenuContainer>
+          <SelectContainer>
+            <p>Limit Search Result:</p>
+            <Select
+              className="select"
+              options={selectOptions}
+              defaultValue={selectOptions.filter(
+                (option) => option.label === "10"
+              )}
+              onChange={(e: any) => {
+                e ? setLimitSearch(e.value) : null;
+              }}
+            />
+          </SelectContainer>
+          <button onClick={() => handleReset()}>Reset</button>
+        </MenuContainer>
+      </Header>
+      <DragDropContainer>
         <DragDropContext
           onDragEnd={({ destination, source }) => {
             // dropped outside the list
@@ -198,19 +221,12 @@ const Container = styled.div`
   inset: 0px;
 `;
 
-const DragDropContainer = styled.div`
-  width: 100%;
-  background: url("./assets/images/main-bg-low-alpha.png") center center / cover
-    no-repeat fixed;
-`;
-
-const TitleContainer = styled.div`
+const Header = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-
   h1 {
     color: #db0000;
     margin: 2vh 0;
@@ -228,6 +244,7 @@ const TitleContainer = styled.div`
 
   button {
     width: 100px;
+    min-width: 100px;
     height: 35px;
     font-family: Helvetica, sans-serif;
     font-weight: bold;
@@ -243,6 +260,48 @@ const TitleContainer = styled.div`
       transition-duration: 0.2s;
     }
   }
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+`;
+
+const MenuContainer = styled.div`
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+`;
+
+const SelectContainer = styled.div`
+  width: 50%;
+  font-family: Helvetica, sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 15px;
+
+  .select {
+    min-width: 80px;
+  }
+
+  p {
+    min-width: 150px;
+    color: #fff;
+    margin-right: 10px;
+  }
+`;
+
+const DragDropContainer = styled.div`
+  width: 100%;
+  background: url("./assets/images/main-bg-low-alpha.png") center center / cover
+    no-repeat fixed;
 `;
 
 const SearchContainer = styled.div`
