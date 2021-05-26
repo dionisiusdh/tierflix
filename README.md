@@ -1,4 +1,4 @@
-<img src="public/assets/images/title.png" style="width: 168px; height: 70px"/>
+<img src="public/assets/images/title.png" style="width: 150px; height: 70px"/>
 
 > Create Your Own Netflix Shows' Tier List
 
